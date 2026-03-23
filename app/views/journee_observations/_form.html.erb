@@ -1,0 +1,43 @@
+<%= form_with(model: journee_observation, class: "mb-4") do |form| %>
+  <% if journee_observation.errors.any? %>
+    <div class="alert alert-danger">
+      <h5><i class="bi bi-exclamation-triangle me-2"></i><%= pluralize(journee_observation.errors.count, "erreur") %> :</h5>
+      <ul class="mb-0">
+        <% journee_observation.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="row g-4">
+        <div class="col-12 col-md-4">
+          <%= form.label :date_observation, class: "form-label fs-5" do %>
+            <i class="bi bi-calendar-date me-1 text-primary"></i> Date d'observation
+          <% end %>
+          <%= form.date_field :date_observation, class: "form-control form-control-lg" %>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <%= form.label :heure_lever, class: "form-label fs-5" do %>
+            <i class="bi bi-sunrise me-1 text-warning"></i> Heure de lever
+          <% end %>
+          <%= form.time_field :heure_lever, class: "form-control form-control-lg" %>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <%= form.label :heure_coucher, class: "form-label fs-5" do %>
+            <i class="bi bi-moon me-1 text-info"></i> Heure de coucher
+          <% end %>
+          <%= form.time_field :heure_coucher, class: "form-control form-control-lg" %>
+          <div class="form-text">Peut etre renseigne plus tard.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer bg-transparent text-end">
+      <%= form.submit class: "btn btn-primary btn-lg px-5" %>
+    </div>
+  </div>
+<% end %>

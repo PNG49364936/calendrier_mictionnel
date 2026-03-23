@@ -1,0 +1,35 @@
+morning_drink:
+  journee_observation: today
+  heure: "08:00:00"
+  volume_boisson: 250
+  volume_urine: 0
+  urgenturies: ""
+  fuites: ""
+  commentaires: "cafe"
+
+morning_urine:
+  journee_observation: today
+  heure: "09:00:00"
+  volume_boisson: 0
+  volume_urine: 300
+  urgenturies: "X"
+  fuites: ""
+  commentaires: ""
+
+afternoon:
+  journee_observation: today
+  heure: "14:00:00"
+  volume_boisson: 200
+  volume_urine: 150
+  urgenturies: ""
+  fuites: "X"
+  commentaires: "repas"
+
+yesterday_entry:
+  journee_observation: yesterday
+  heure: "10:00:00"
+  volume_boisson: 300
+  volume_urine: 200
+  urgenturies: "XX"
+  fuites: ""
+  commentaires: "the"

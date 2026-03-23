@@ -1,0 +1,14 @@
+today:
+  date_observation: <%= Date.current %>
+  heure_lever: "07:00:00"
+  heure_coucher:
+
+yesterday:
+  date_observation: <%= Date.current - 1.day %>
+  heure_lever: "06:30:00"
+  heure_coucher: "22:00:00"
+
+two_days_ago:
+  date_observation: <%= Date.current - 2.days %>
+  heure_lever: "08:00:00"
+  heure_coucher: "23:00:00"

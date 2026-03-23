@@ -1,0 +1,176 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons';
+
+// Custom styles for Calendrier Mictionnel
+// Designed for elderly patients: large fonts, high contrast, easy to use
+
+body {
+  font-size: 1.1rem;
+  background-color: #f8f9fa;
+}
+
+.navbar-brand {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+// Large, accessible buttons
+.btn-action {
+  font-size: 1.3rem;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  min-width: 220px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+// Cards for journées
+.card-journee {
+  transition: box-shadow 0.2s ease;
+  border-radius: 0.75rem;
+  border: 1px solid #dee2e6;
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Table styling
+.table-entries {
+  th {
+    background-color: #2c5282;
+    color: white;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+  td {
+    vertical-align: middle;
+    font-size: 1.05rem;
+  }
+}
+
+.row-total {
+  background-color: #e2e8f0 !important;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.row-total-global {
+  background-color: #2c5282 !important;
+  color: white;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+// Form labels - larger for readability
+.form-label {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.form-control, .form-select {
+  font-size: 1.1rem;
+  padding: 0.5rem 0.75rem;
+}
+
+// Statistics section
+.stats-header {
+  background: linear-gradient(135deg, #1a5276, #2e86c1);
+  color: white;
+  font-weight: 700;
+}
+
+.stats-section-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1a5276;
+  border-bottom: 2px solid #2e86c1;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.stats-table-header th {
+  background-color: #1a5276;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.stats-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: 0.75rem;
+  border: 2px solid;
+}
+
+.stats-card-min {
+  border-color: #e67e22;
+  background: linear-gradient(135deg, #fef9e7, #fdebd0);
+}
+
+.stats-card-max {
+  border-color: #27ae60;
+  background: linear-gradient(135deg, #eafaf1, #d5f5e3);
+}
+
+.stats-card-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.stats-card-min .stats-card-icon { color: #e67e22; }
+.stats-card-max .stats-card-icon { color: #27ae60; }
+
+.stats-card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-card-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #555;
+}
+
+.stats-card-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  line-height: 1.2;
+}
+
+.stats-card-detail {
+  font-size: 0.95rem;
+  color: #777;
+  font-style: italic;
+}
+
+.stats-badge-rank {
+  background-color: #2e86c1;
+  color: white;
+  font-size: 0.95rem;
+  padding: 0.3em 0.6em;
+  border-radius: 50%;
+}
+
+// Footer
+.footer {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+// Status badge
+.badge-en-cours {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}

@@ -1,0 +1,15 @@
+<div class="mb-4">
+  <h1>
+    <i class="bi bi-plus-circle text-primary me-2"></i>
+    Nouveau formulaire
+  </h1>
+  <p class="text-muted fs-5">Renseignez les informations pour cette nouvelle journee d'observation.</p>
+</div>
+
+<%= render "form", journee_observation: @journee_observation %>
+
+<div class="mt-3">
+  <%= link_to journee_observations_path, class: "btn btn-outline-secondary btn-lg" do %>
+    <i class="bi bi-arrow-left me-1"></i> Retour a l'accueil
+  <% end %>
+</div>

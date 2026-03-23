@@ -1,0 +1,47 @@
+<%= form_with(model: [journee_observation, entree]) do |form| %>
+  <% if entree.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% entree.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row g-3 align-items-end">
+    <div class="col-6 col-md-2">
+      <%= form.label :heure, "Heure", class: "form-label" %>
+      <%= form.time_field :heure, class: "form-control", required: true %>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <%= form.label :volume_boisson, "Boisson (ml)", class: "form-label" %>
+      <%= form.number_field :volume_boisson, class: "form-control", min: 0, placeholder: "ml" %>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <%= form.label :volume_urine, "Urine (ml)", class: "form-label" %>
+      <%= form.number_field :volume_urine, class: "form-control", min: 0, placeholder: "ml" %>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <%= form.label :urgenturies, "Urgenturies", class: "form-label" %>
+      <%= form.select :urgenturies, Entree::URGENTURIES_OPTIONS.map { |o| [o.presence || "---", o] }, {}, class: "form-select" %>
+    </div>
+
+    <div class="col-6 col-md-1">
+      <%= form.label :fuites, "Fuites", class: "form-label" %>
+      <%= form.select :fuites, Entree::FUITES_OPTIONS.map { |o| [o.presence || "---", o] }, {}, class: "form-select" %>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <%= form.label :commentaires, "Commentaires", class: "form-label" %>
+      <%= form.text_field :commentaires, class: "form-control", maxlength: 10, placeholder: "10 car. max" %>
+    </div>
+
+    <div class="col-12 col-md-1">
+      <%= form.submit "Ajouter", class: "btn btn-success w-100" %>
+    </div>
+  </div>
+<% end %>
