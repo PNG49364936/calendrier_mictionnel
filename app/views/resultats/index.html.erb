@@ -64,6 +64,7 @@
                   <th>Heure</th>
                   <th>Boisson (ml)</th>
                   <th>Urine (ml)</th>
+                  <th>Intervalle (min)</th>
                   <th>Urgenturies</th>
                   <th>Fuites</th>
                   <th>Commentaires</th>
@@ -75,6 +76,7 @@
                     <td><%= entree.heure.strftime("%H:%M") %></td>
                     <td><%= entree.volume_boisson || "-" %></td>
                     <td><%= entree.volume_urine || "-" %></td>
+                    <td><%= entree.intervalle_mictionnel ? "#{entree.intervalle_mictionnel} min" : "-" %></td>
                     <td><%= entree.urgenturies.presence || "-" %></td>
                     <td><%= entree.fuites.presence || "-" %></td>
                     <td><%= entree.commentaires.presence || "-" %></td>
@@ -86,6 +88,7 @@
                   <td><strong>Total du jour</strong></td>
                   <td><strong><%= journee.total_boissons %></strong></td>
                   <td><strong><%= journee.total_urine %></strong></td>
+                  <td></td>
                   <td colspan="3"></td>
                 </tr>
               </tfoot>
@@ -148,6 +151,7 @@
                   <th>Volume quotidien (ml)</th>
                   <th>Nb mictions</th>
                   <th>Moyenne (ml)</th>
+                  <th>Moyenne intervalle (min)</th>
                 </tr>
               </thead>
               <tbody>
@@ -157,6 +161,7 @@
                     <td><%= @journees.find { |j| j.date_observation.strftime("%d/%m/%Y") == m[:date] }&.total_urine %></td>
                     <td><%= m[:nb_mictions] %></td>
                     <td><strong><%= m[:moyenne] %> ml</strong></td>
+                    <td><strong><%= m[:moyenne_intervalle] > 0 ? "#{m[:moyenne_intervalle]} min" : "-" %></strong></td>
                   </tr>
                 <% end %>
                 <% if @stats[:moyennes_par_jour].size > 1 %>
@@ -165,6 +170,7 @@
                     <td><strong><%= @total_global_urine %></strong></td>
                     <td><strong><%= @stats[:nb_mictions_global] %></strong></td>
                     <td><strong><%= @stats[:moyenne_globale] %> ml</strong></td>
+                    <td><strong><%= @stats[:moyenne_intervalle_global] > 0 ? "#{@stats[:moyenne_intervalle_global]} min" : "-" %></strong></td>
                   </tr>
                 <% end %>
               </tbody>

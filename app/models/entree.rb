@@ -8,4 +8,13 @@ class Entree < ApplicationRecord
   validates :commentaires, length: { maximum: 10 }
   validates :urgenturies, inclusion: { in: URGENTURIES_OPTIONS }, allow_nil: true
   validates :fuites, inclusion: { in: FUITES_OPTIONS }, allow_nil: true
+
+  after_save :recalculer_intervalles
+  after_destroy :recalculer_intervalles
+
+  private
+
+  def recalculer_intervalles
+    journee_observation.recalculer_intervalles!
+  end
 end

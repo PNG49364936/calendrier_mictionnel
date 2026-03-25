@@ -37,18 +37,19 @@ class ResultatsController < ApplicationController
       pdf.move_down 5
 
       if journee.entrees.any?
-        table_data = [["Heure", "Boisson (ml)", "Urine (ml)", "Urgenturies", "Fuites", "Commentaires"]]
+        table_data = [["Heure", "Boisson (ml)", "Urine (ml)", "Intervalle (min)", "Urgenturies", "Fuites", "Commentaires"]]
         journee.entrees.order(:heure).each do |entree|
           table_data << [
             entree.heure&.strftime("%H:%M") || "-",
             entree.volume_boisson || "-",
             entree.volume_urine || "-",
+            entree.intervalle_mictionnel ? "#{entree.intervalle_mictionnel}" : "-",
             entree.urgenturies.presence || "-",
             entree.fuites.presence || "-",
             entree.commentaires.presence || "-"
           ]
         end
-        table_data << ["Total", journee.total_boissons, journee.total_urine, "", "", ""]
+        table_data << ["Total", journee.total_boissons, journee.total_urine, "", "", "", ""]
 
         pdf.table(table_data, header: true, width: pdf.bounds.width) do |t|
           t.row(0).font_style = :bold
@@ -87,10 +88,12 @@ class ResultatsController < ApplicationController
 
       # Moyenne miction par jour
       stats[:moyennes_par_jour].each do |m|
-        pdf.text "#{m[:date]} : Moyenne miction = #{m[:moyenne]} ml (#{m[:nb_mictions]} mictions)", size: 10
+        intervalle_str = m[:moyenne_intervalle] > 0 ? "#{m[:moyenne_intervalle]} min" : "-"
+        pdf.text "#{m[:date]} : Moyenne miction = #{m[:moyenne]} ml (#{m[:nb_mictions]} mictions) - Moyenne intervalle = #{intervalle_str}", size: 10
       end
       if stats[:moyennes_par_jour].size > 1
-        pdf.text "Global : Moyenne miction = #{stats[:moyenne_globale]} ml (#{stats[:nb_mictions_global]} mictions)", size: 10, style: :bold
+        intervalle_global_str = stats[:moyenne_intervalle_global] > 0 ? "#{stats[:moyenne_intervalle_global]} min" : "-"
+        pdf.text "Global : Moyenne miction = #{stats[:moyenne_globale]} ml (#{stats[:nb_mictions_global]} mictions) - Moyenne intervalle = #{intervalle_global_str}", size: 10, style: :bold
       end
 
       pdf.move_down 5
@@ -118,8 +121,11 @@ class ResultatsController < ApplicationController
     stats = {
       moyennes_par_jour: [],
       moyenne_globale: 0,
+      moyenne_intervalle_global: 0,
       nb_mictions_global: 0,
       total_urine_global: 0,
+      total_intervalles_global: 0,
+      nb_intervalles_global: 0,
       miction_min: { volume: Float::INFINITY, date: nil },
       miction_max: { volume: 0, date: nil },
       top_ecarts: []
@@ -135,7 +141,14 @@ class ResultatsController < ApplicationController
 
       # Moyenne par jour
       moyenne = nb_mictions > 0 ? (total_urine_jour.to_f / nb_mictions).round(0) : 0
-      stats[:moyennes_par_jour] << { date: date_str, moyenne: moyenne.to_i, nb_mictions: nb_mictions }
+
+      # Moyenne intervalle par jour
+      intervalles_jour = entrees_urine.where.not(intervalle_mictionnel: nil).pluck(:intervalle_mictionnel)
+      moyenne_intervalle = intervalles_jour.any? ? (intervalles_jour.sum.to_f / intervalles_jour.size).round(0).to_i : 0
+      stats[:total_intervalles_global] += intervalles_jour.sum
+      stats[:nb_intervalles_global] += intervalles_jour.size
+
+      stats[:moyennes_par_jour] << { date: date_str, moyenne: moyenne.to_i, nb_mictions: nb_mictions, moyenne_intervalle: moyenne_intervalle }
 
       stats[:nb_mictions_global] += nb_mictions
       stats[:total_urine_global] += total_urine_jour
@@ -171,6 +184,11 @@ class ResultatsController < ApplicationController
     # Moyenne globale
     if stats[:nb_mictions_global] > 0
       stats[:moyenne_globale] = (stats[:total_urine_global].to_f / stats[:nb_mictions_global]).round(0).to_i
+    end
+
+    # Moyenne intervalle globale
+    if stats[:nb_intervalles_global] > 0
+      stats[:moyenne_intervalle_global] = (stats[:total_intervalles_global].to_f / stats[:nb_intervalles_global]).round(0).to_i
     end
 
     # Reset min si aucune donnée

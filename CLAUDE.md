@@ -56,12 +56,14 @@ Le patient devra pouvoir selectionner aussi  "formulaire en cours" valable jusqu
 | urgenturies            | string   |                      |
 | fuites                 | string   |                      |
 | commentaires           | string   | limit: 10            |
+| intervalle_mictionnel  | integer  | calculé auto (min)   |
 | created_at             | datetime | NOT NULL             |
 | updated_at             | datetime | NOT NULL             |
 
 ### Modeles
-- `JourneeObservation` (`app/models/journee_observation.rb`) -- has_many :entrees, dependent: :destroy
-- `Entree` (`app/models/entree.rb`) -- belongs_to :journee_observation
+- `JourneeObservation` (`app/models/journee_observation.rb`) -- has_many :entrees, dependent: :destroy ; méthode `recalculer_intervalles!` pour calculer automatiquement l'intervalle entre mictions
+- `Entree` (`app/models/entree.rb`) -- belongs_to :journee_observation ; callback after_save/after_destroy pour recalculer les intervalles mictionnels
+- **Intervalle mictionnel** : calculé automatiquement en minutes entre chaque miction (entrées ayant un volume_urine > 0). La 1ère miction du jour n'a pas d'intervalle (nil). Stocké dans la colonne `intervalle_mictionnel` de la table `entrees`.
 
 ### Controlleurs
 - `JourneeObservationsController` (`app/controllers/journee_observations_controller.rb`) -- CRUD journées

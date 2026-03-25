@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_12_142243) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_25_150923) do
   create_table "entrees", force: :cascade do |t|
     t.integer "journee_observation_id", null: false
     t.time "heure", null: false
@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_12_142243) do
     t.string "commentaires", limit: 10
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "intervalle_mictionnel"
     t.index ["journee_observation_id"], name: "index_entrees_on_journee_observation_id"
   end
 

@@ -47,6 +47,7 @@
               <th>Heure</th>
               <th>Boisson (ml)</th>
               <th>Urine (ml)</th>
+              <th>Intervalle (min)</th>
               <th>Urgenturies</th>
               <th>Fuites</th>
               <th>Commentaires</th>
@@ -59,6 +60,7 @@
                 <td><%= entree.heure.strftime("%H:%M") %></td>
                 <td><%= entree.volume_boisson || "-" %></td>
                 <td><%= entree.volume_urine || "-" %></td>
+                <td><%= entree.intervalle_mictionnel ? "#{entree.intervalle_mictionnel} min" : "-" %></td>
                 <td><%= entree.urgenturies.presence || "-" %></td>
                 <td><%= entree.fuites.presence || "-" %></td>
                 <td><%= entree.commentaires.presence || "-" %></td>
@@ -80,6 +82,7 @@
               <td><strong>Total</strong></td>
               <td><strong><%= @journee_observation.total_boissons %></strong></td>
               <td><strong><%= @journee_observation.total_urine %></strong></td>
+              <td></td>
               <td colspan="4"></td>
             </tr>
           </tfoot>
